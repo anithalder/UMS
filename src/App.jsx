@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
-import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 import Admin from "./pages/admin/Admin";
 import StudentDashboard from "./pages/student/StudentDashboard";
@@ -15,13 +14,22 @@ import FacultyDocumentApproval from "./pages/faculty/FacultyDocumentApproval";
 import LibraryAndResources from "./pages/faculty/LibraryAndResources";
 import FeedbackEvaluation from "./pages/faculty/FeedbackEvaluation";
 import HODDashboard from "./pages/hod/HODDashboard";
+import HomePage from "./pages/HomePage";
+import AcademicManagement from "./pages/hod/AcademicManagement";
+import HODExaminationManagement from "./pages/hod/ExaminationManagement";
+import DocumentApproval from "./pages/hod/DocumentApproval";
+import FacultyManagement from "./pages/hod/FacultyManagement";
+import AttendancePerformnceReports from "./pages/hod/AttendancePerformnceReports";
+import CommunicationNotifications from "./pages/hod/CommunicationNotifications";
+import FeedbackQualityMonitoring from "./pages/hod/FeedbackQualityMonitoring";
+import Reports from "./pages/hod/Reports";
 
 export default function App() {
   return (
     <Routes>
       {/* All pages share Layout */}
+      <Route path="/" element={<HomePage />} />
       <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
         <Route path="/student">
           <Route path="dashboard" element={<StudentDashboard />} />
         </Route>
@@ -38,9 +46,20 @@ export default function App() {
         </Route>
         <Route path="/hod">
           <Route path="dashboard" element={<HODDashboard />} />
-          {/* <Route path="faculty-management" element={<FacultyManagement />} /> */}
-          {/* <Route path="course-management" element={<CourseManagement />} /> */}
-          {/* <Route path="reports" element={<HODReports />} /> */}
+          <Route path="academic" element={<AcademicManagement />} />
+          <Route
+            path="attendance-reports"
+            element={<AttendancePerformnceReports />}
+          />
+          <Route path="examination" element={<HODExaminationManagement />} />
+          <Route path="document" element={<DocumentApproval />} />
+          <Route path="faculty-management" element={<FacultyManagement />} />
+          <Route path="feedback" element={<FeedbackQualityMonitoring />} />
+          <Route path="reports" element={<Reports />} />
+          <Route
+            path="communication-notification"
+            element={<CommunicationNotifications />}
+          />
         </Route>
         <Route path="/admin" element={<Admin />} />
       </Route>
