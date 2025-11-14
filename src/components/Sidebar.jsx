@@ -197,7 +197,7 @@ function Sidebar() {
     ],
   };
 
-  const [role, setRole] = useState("faculty");
+  const [role, setRole] = useState("hod");
   const activeMenu = menuItems[role] || [];
   const navigate = useNavigate();
 

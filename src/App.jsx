@@ -1,8 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
-import ProtectedRoute from "./components/ProtectedRoute";
-
 import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 
@@ -23,20 +21,14 @@ import FeedbackEvaluation from "./pages/faculty/FeedbackEvaluation";
 // HOD
 import HODDashboard from "./pages/hod/HODDashboard";
 
-// Admin
-import Admin from "./pages/admin/Admin";
-
 export default function App() {
   return (
     <Routes>
-      {/* Layout Wrapper */}
+      {/* All pages share Layout */}
       <Route element={<Layout />}>
-        {/* Public Route */}
         <Route path="/" element={<Home />} />
-
-        {/* Student Protected Routes */}
-        <Route element={<ProtectedRoute allowedRoles={["STUDENT"]} />}>
-          <Route path="/student/dashboard" element={<StudentDashboard />} />
+        <Route path="/student">
+          <Route path="dashboard" element={<StudentDashboard />} />
         </Route>
 
         {/* Faculty Protected Routes */}
@@ -63,10 +55,11 @@ export default function App() {
           <Route path="/faculty/library" element={<LibraryAndResources />} />
           <Route path="/faculty/feedback" element={<FeedbackEvaluation />} />
         </Route>
-
-        {/* HOD Protected Routes */}
-        <Route element={<ProtectedRoute allowedRoles={["HOD"]} />}>
-          <Route path="/hod/dashboard" element={<HODDashboard />} />
+        <Route path="/hod">
+          <Route path="dashboard" element={<HODDashboard />} />
+          {/* <Route path="faculty-management" element={<FacultyManagement />} /> */}
+          {/* <Route path="course-management" element={<CourseManagement />} /> */}
+          {/* <Route path="reports" element={<HODReports />} /> */}
         </Route>
 
         {/* Admin Protected Routes */}
