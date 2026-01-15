@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Lock, Mail, Eye, EyeOff, KeyRound, X } from "lucide-react";
 import { Toaster, toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { setLogin } from "../../redux/slices/auth.slice";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -36,6 +38,7 @@ export default function Login() {
     },
   };
 
+  const dispatch = useDispatch();
   // ✅ Handle Login
   const handleLogin = (e) => {
     e.preventDefault();
@@ -51,7 +54,12 @@ export default function Login() {
 
     if (userEntry) {
       const [role, info] = userEntry;
-      localStorage.setItem("user", JSON.stringify({ email, role }));
+      const userData = { email, role };
+
+      // Dispatch to Redux instead of just local storage
+      dispatch(setLogin(userData));
+      localStorage.setItem("user", JSON.stringify(userData));
+
       toast.success(`✅ Welcome back, ${role.toUpperCase()}!`);
       setTimeout(() => navigate(info.route), 1200);
     } else {

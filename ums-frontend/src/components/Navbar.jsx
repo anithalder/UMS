@@ -1,7 +1,12 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ProfileSettings from "./ProfileSettings";
 import NotificationsPanel from "./NotificationPanel";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/slices/auth.slice";
+import { toast } from "sonner";
+import { logo } from "../assets";
 
 export default function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -9,16 +14,11 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   // ✅ Logout Handler
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
-    // Clear any saved authentication data
-    localStorage.removeItem("user");
-    localStorage.removeItem("authToken");
-    sessionStorage.clear();
-
-    // Optional: show a soft logout confirmation
-    alert("👋 You have been logged out successfully!");
-
-    // Redirect to login
+    dispatch(logout()); // Use Redux logout action
+    toast.success("👋 You have been logged out successfully!");
     navigate("/login");
   };
 
@@ -28,6 +28,15 @@ export default function Navbar() {
       <div className="navbar bg-base-100 shadow-sm sticky top-0 z-40 px-4">
         {/* Left: University Title */}
         <div className="flex-1 flex justify-center md:justify-start">
+          {/* ✅ Logo */}
+          <Link
+            to="/">
+            <img
+              src={logo}
+              alt="University Logo"
+              className="h-10 w-10 rounded-full object-cover"
+            />
+            </Link>
           <Link
             to="/"
             className="btn btn-ghost normal-case text-xl font-semibold text-primary tracking-wide"

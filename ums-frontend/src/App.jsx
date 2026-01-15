@@ -1,30 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Layout from "./components/Layout";
-import Login from "./pages/auth/Login";
-import Admin from "./pages/admin/Admin";
-import StudentDashboard from "./pages/student/StudentDashboard";
-import FacultyDashboard from "./pages/faculty/FacultyDashboard";
-import ProfileSettings from "./components/ProfileSettings";
-import FacultyAcademicManagement from "./pages/faculty/FacultyAcademicManagement";
-import AttendanceManagement from "./pages/faculty/AttendanceManagement";
-import FacultyTimetable from "./pages/faculty/FacultyTimetable";
-import ExaminationManagement from "./pages/faculty/ExaminationManagement";
-import FacultyDocumentApproval from "./pages/faculty/FacultyDocumentApproval";
-import LibraryAndResources from "./pages/faculty/LibraryAndResources";
-import FeedbackEvaluation from "./pages/faculty/FeedbackEvaluation";
-import HODDashboard from "./pages/hod/HODDashboard";
-import HomePage from "./pages/HomePage";
-import AcademicManagement from "./pages/hod/AcademicManagement";
-import HODExaminationManagement from "./pages/hod/ExaminationManagement";
-import DocumentApproval from "./pages/hod/DocumentApproval";
-import FacultyManagement from "./pages/hod/FacultyManagement";
-import AttendancePerformnceReports from "./pages/hod/AttendancePerformnceReports";
-import CommunicationNotifications from "./pages/hod/CommunicationNotifications";
-import FeedbackQualityMonitoring from "./pages/hod/FeedbackQualityMonitoring";
-import Reports from "./pages/hod/Reports";
+import { Layout, ProfileSettings } from "./components";
+import {
+  HomePage,
+  Login,
+  Admin,
+  StudentDashboard,
+  FacultyDashboard,
+  FacultyAcademicManagement,
+  AttendanceManagement,
+  FacultyTimetable,
+  ExaminationManagement,
+  FacultyDocumentApproval,
+  LibraryAndResources,
+  FeedbackEvaluation,
+  HODDashboard,
+  AcademicManagement,
+  HODExaminationManagement,
+  DocumentApproval,
+  FacultyManagement,
+  AttendancePerformnceReports,
+  CommunicationNotifications,
+  FeedbackQualityMonitoring,
+  Reports,
+} from "./pages";
+import { checkAuth } from "./redux/slices/auth.slice";
+import { useDispatch } from "react-redux";
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth()); // Check session on mount
+  }, [dispatch]);
+
   return (
     <Routes>
       {/* All pages share Layout */}

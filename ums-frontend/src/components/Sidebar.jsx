@@ -215,7 +215,7 @@ function Sidebar() {
           ></label>
 
           {/* Sidebar */}
-          <div className="is-drawer-close:w-14 is-drawer-open:w-64 bg-base-200 flex flex-col items-start transition-all duration-300 sticky bottom-0 min-h-full">
+          <div className="is-drawer-close:w-14 is-drawer-open:w-64 bg-base-100 flex flex-col items-start transition-all duration-300 sticky bottom-0 min-h-screen">
             <ul className="menu w-full grow">
               {activeMenu.map((item, index) => (
                 <li key={index}>

@@ -7,11 +7,11 @@ import { Toaster } from "sonner";
 
 export default function Layout() {
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Navbar />
-        <main className="p-4">
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <div className="flex">
+        <Sidebar />
+        <main className="flex-1 min-h-screen">
           <Outlet />
         </main>
       </div>
