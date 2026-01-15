@@ -1,86 +1,94 @@
 import React, { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Layout from "./components/Layout";
-import Login from "./pages/auth/Login";
-import Admin from "./pages/admin/Admin";
-import StudentDashboard from "./pages/student/StudentDashboard";
-import FacultyDashboard from "./pages/faculty/FacultyDashboard";
-import ProfileSettings from "./components/ProfileSettings";
-import FacultyAcademicManagement from "./pages/faculty/FacultyAcademicManagement";
-import AttendanceManagement from "./pages/faculty/AttendanceManagement";
-import FacultyTimetable from "./pages/faculty/FacultyTimetable";
-import ExaminationManagement from "./pages/faculty/ExaminationManagement";
-import FacultyDocumentApproval from "./pages/faculty/FacultyDocumentApproval";
-import LibraryAndResources from "./pages/faculty/LibraryAndResources";
-import FeedbackEvaluation from "./pages/faculty/FeedbackEvaluation";
-import HODDashboard from "./pages/hod/HODDashboard";
-import HomePage from "./pages/HomePage";
-import AcademicManagement from "./pages/hod/AcademicManagement";
-import HODExaminationManagement from "./pages/hod/ExaminationManagement";
-import DocumentApproval from "./pages/hod/DocumentApproval";
-import FacultyManagement from "./pages/hod/FacultyManagement";
-import AttendancePerformnceReports from "./pages/hod/AttendancePerformnceReports";
-import CommunicationNotifications from "./pages/hod/CommunicationNotifications";
-import FeedbackQualityMonitoring from "./pages/hod/FeedbackQualityMonitoring";
-import Reports from "./pages/hod/Reports";
+import { useDispatch } from "react-redux";
+import { checkAuth } from "./redux/slices/auth.slice";
+
+// Consolidated imports from barrel files
+import { Layout, ProfileSettings } from "./components";
+import {
+  HomePage,
+  Login,
+  Admin,
+  StudentDashboard,
+  FacultyDashboard,
+  FacultyAcademicManagement,
+  AttendanceManagement,
+  FacultyTimetable,
+  ExaminationManagement,
+  FacultyDocumentApproval,
+  LibraryAndResources,
+  FeedbackEvaluation,
+  HODDashboard,
+  AcademicManagement,
+  HODExaminationManagement,
+  DocumentApproval,
+  FacultyManagement,
+  AttendancePerformnceReports,
+  CommunicationNotifications,
+  FeedbackQualityMonitoring,
+  Reports,
+} from "./pages";
 
 export default function App() {
   const dispatch = useDispatch();
 
+  // ✅ Initialize Auth State on App Load
   useEffect(() => {
-    dispatch(checkAuth()); // Check session on mount
+    dispatch(checkAuth());
   }, [dispatch]);
 
   return (
     <Routes>
-      {/* All pages share Layout */}
+      {/* Public Landing Page */}
+      <Route path="/" element={<HomePage />} />
+
+      {/* Login Route (Standalone - no Layout) */}
+      <Route path="/login" element={<Login />} />
+
+      {/* Protected Routes sharing common Layout (Navbar, Sidebar, etc.) */}
       <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
+        {/* Student Section */}
         <Route path="/student">
           <Route path="dashboard" element={<StudentDashboard />} />
         </Route>
 
-        {/* Faculty Protected Routes */}
-        <Route element={<ProtectedRoute allowedRoles={["FACULTY"]} />}>
-          <Route path="/faculty/dashboard" element={<FacultyDashboard />} />
-          <Route path="/faculty/profile" element={<ProfileSettings />} />
-          <Route
-            path="/faculty/academic"
-            element={<FacultyAcademicManagement />}
-          />
-          <Route
-            path="/faculty/attendance"
-            element={<AttendanceManagement />}
-          />
-          <Route path="/faculty/timetable" element={<FacultyTimetable />} />
-          <Route
-            path="/faculty/examination"
-            element={<ExaminationManagement />}
-          />
-          <Route
-            path="/faculty/documents"
-            element={<FacultyDocumentApproval />}
-          />
-          <Route path="/faculty/library" element={<LibraryAndResources />} />
-          <Route path="/faculty/feedback" element={<FeedbackEvaluation />} />
+        {/* Faculty Section */}
+        <Route path="/faculty">
+          <Route path="dashboard" element={<FacultyDashboard />} />
+          <Route path="profile" element={<ProfileSettings />} />
+          <Route path="academic" element={<FacultyAcademicManagement />} />
+          <Route path="attendance" element={<AttendanceManagement />} />
+          <Route path="timetable" element={<FacultyTimetable />} />
+          <Route path="examination" element={<ExaminationManagement />} />
+          <Route path="documents" element={<FacultyDocumentApproval />} />
+          <Route path="library" element={<LibraryAndResources />} />
+          <Route path="feedback" element={<FeedbackEvaluation />} />
         </Route>
+
+        {/* HOD Section */}
         <Route path="/hod">
           <Route path="dashboard" element={<HODDashboard />} />
-          {/* <Route path="faculty-management" element={<FacultyManagement />} /> */}
-          {/* <Route path="course-management" element={<CourseManagement />} /> */}
-          {/* <Route path="reports" element={<HODReports />} /> */}
+          <Route path="academic" element={<AcademicManagement />} />
+          <Route
+            path="attendance-reports"
+            element={<AttendancePerformnceReports />}
+          />
+          <Route path="examination" element={<HODExaminationManagement />} />
+          <Route path="document" element={<DocumentApproval />} />
+          <Route path="faculty-management" element={<FacultyManagement />} />
+          <Route path="feedback" element={<FeedbackQualityMonitoring />} />
+          <Route path="reports" element={<Reports />} />
+          <Route
+            path="communication-notification"
+            element={<CommunicationNotifications />}
+          />
         </Route>
 
-        {/* Admin Protected Routes */}
-        <Route element={<ProtectedRoute allowedRoles={["ADMIN"]} />}>
-          <Route path="/admin" element={<Admin />} />
-        </Route>
+        {/* Admin Section */}
+        <Route path="/admin" element={<Admin />} />
       </Route>
 
-      {/* Login Route – no Layout */}
-      <Route path="/login" element={<Login />} />
-
-      {/* Unknown routes */}
+      {/* Fallback: Redirect unknown routes to Home */}
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
